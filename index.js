@@ -1,8 +1,15 @@
 const Joi = require('joi');
+const logger = require('./logger');
+const aurth = require('./authenticate');
 const express = require('express');
 const app = express();
-
-app.use(express.json());
+   
+app.use(express.json());//middeware
+// middleware
+app.use(logger);//install middleware
+    
+//middleware
+app.use(aurth); //install middleware    
 
 
 const courses = [
