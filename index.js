@@ -2,13 +2,17 @@ const Joi = require('joi');
 const logger = require('./logger');
 const aurth = require('./authenticate');
 const express = require('express');
+const { static } = require('express');
 const app = express();
    
-app.use(express.json());//middeware
-// middleware
-app.use(logger);//install middleware
-    
-//middleware
+//builtin middleware
+app.use(express.json());//parse json and set key and value into req.body and pass next middleware
+app.use(express.urlencoded({extended:true}));//parse urlencoded (key=value&key=value) and set key value into req.body and pass next middleware
+app.use(express.static('public'));//this middleware use to send clint all public asset like images,css etc.
+
+
+//Custom  middleware
+app.use(logger);//install middleware   
 app.use(aurth); //install middleware    
 
 
