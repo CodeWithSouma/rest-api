@@ -1,15 +1,19 @@
+const helmet = require('helmet');//third party middleware module load
+const morgan =require('morgan');//third party middleware module load
 const Joi = require('joi');
 const logger = require('./logger');
 const aurth = require('./authenticate');
-const express = require('express');
+const express = require('express');//this module return a fnction
 const { static } = require('express');
-const app = express();
+const app = express();//call express function
    
+//Third party middleware
+app.use(helmet());
+app.use(morgan('tiny'));//morgan print console http request
 //builtin middleware
 app.use(express.json());//parse json and set key and value into req.body and pass next middleware
 app.use(express.urlencoded({extended:true}));//parse urlencoded (key=value&key=value) and set key value into req.body and pass next middleware
 app.use(express.static('public'));//this middleware use to send clint all public asset like images,css etc.
-
 
 //Custom  middleware
 app.use(logger);//install middleware   
