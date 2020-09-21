@@ -1,3 +1,4 @@
+const config = require('config');
 const helmet = require('helmet');//third party middleware module load
 const morgan =require('morgan');//third party middleware module load
 const Joi = require('joi');
@@ -7,9 +8,22 @@ const express = require('express');//this module return a fnction
 const { static } = require('express');
 const app = express();//call express function
    
+//which enviroment we work (devlopment/production/testing)
+// console.log(`NODE_ENV: ${process.env.NODE_ENV}`);//for gatting enviroment(default undefine)
+// console.log(`App: ${app.get('env')}`);//both for chaking enviroment(default devlopment)
+
 //Third party middleware
 app.use(helmet());
-app.use(morgan('tiny'));//morgan print console http request
+
+//configuration
+console.log('Application Name: '+config.get('name'));
+console.log('Mail Server: '+config.get('mail.host'));
+
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny'));//morgan print console http request
+    console.log('morgan started....');
+}
+
 //builtin middleware
 app.use(express.json());//parse json and set key and value into req.body and pass next middleware
 app.use(express.urlencoded({extended:true}));//parse urlencoded (key=value&key=value) and set key value into req.body and pass next middleware
